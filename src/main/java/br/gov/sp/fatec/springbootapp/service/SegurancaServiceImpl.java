@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -87,6 +89,8 @@ public class SegurancaServiceImpl implements SegurancaService {
     }
 
     @Override
+    @Primary
+    @Qualifier
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepo.findByNome(username);
         if (usuario == null) {
@@ -97,5 +101,4 @@ public class SegurancaServiceImpl implements SegurancaService {
                         .toArray(new String[usuario.getAutorizacoes().size()]))
                 .build();
     }
-
 }
